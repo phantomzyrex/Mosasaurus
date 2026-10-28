@@ -1,0 +1,6 @@
+{
+  "name": "Mosasaurus — Lord of the Late Cretaceous Seas",
+  "description": "An immersive, museum-grade underwater editorial experience exploring Mosasaurus hoffmannii, the apex marine reptile of the Late Cretaceous oceans.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+:root {
+  --surface: #36D6DE;
+  --shallow: #12A8BE;
+  --mid: #0A6E8A;
+  --deep: #07405F;
+  --abyss: #031A2E;
+  --ink: #020E1A;
+  --foam: #F4FEFF;
+  --rim: #7CF4F0;
+
+  --font-display: 'Marcellus', 'Cinzel', 'Optima', Georgia, serif;
+  --font-body: 'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  html {
+    background-color: var(--ink);
+    color: var(--foam);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--ink);
+    color: var(--foam);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* Outlined Marcellus section numbers */
+.section-number-outline {
+  font-family: var(--font-display);
+  color: rgba(124, 244, 240, 0.06);
+  -webkit-text-stroke: 1.25px rgba(244, 254, 255, 0.45);
+  user-select: none;
+}
+
+/* Hero ocean background gradient */
+.hero-ocean-gradient {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 55%, rgba(2, 14, 26, 0.72) 100%),
+    radial-gradient(ellipse 115% 95% at 50% -10%, var(--surface) 0%, var(--shallow) 28%, var(--mid) 55%, var(--deep) 78%, var(--abyss) 100%);
+}
+
+/* Hero wordmark styling */
+.hero-wordmark {
+  font-family: var(--font-display);
+  color: var(--foam);
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 36px rgba(124, 244, 240, 0.25);
+  line-height: 0.88;
+}
+
+/* Creature underwater optical grading */
+.mosasaurus-hero-graded {
+  filter: contrast(1.15) brightness(0.92) sepia(0.48) hue-rotate(148deg) saturate(1.85) drop-shadow(0 0 36px rgba(124, 244, 240, 0.35));
+  -webkit-mask-image: linear-gradient(to bottom, #000000 72%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000000 72%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+}
+
+.mosasaurus-anatomy-graded {
+  filter: contrast(1.14) brightness(0.94) sepia(0.45) hue-rotate(148deg) saturate(1.75) drop-shadow(0 0 24px rgba(54, 214, 222, 0.28));
+}
+
+/* God rays swaying animation */
+@keyframes raySwaySlow {
+  0%, 100% {
+    transform: translateX(-18px) rotate(-4deg) scaleY(1);
+    opacity: 0.22;
+  }
+  50% {
+    transform: translateX(22px) rotate(3deg) scaleY(1.06);
+    opacity: 0.3;
+  }
+}
+
+@keyframes raySwayAlt {
+  0%, 100% {
+    transform: translateX(15px) rotate(4deg) scaleY(1.04);
+    opacity: 0.16;
+  }
+  50% {
+    transform: translateX(-20px) rotate(-3deg) scaleY(0.96);
+    opacity: 0.26;
+  }
+}
+
+@keyframes creatureSwimIdle {
+  0%, 100% {
+    transform: translate3d(0px, -7px, 0) rotate(-0.55deg);
+  }
+  50% {
+    transform: translate3d(0px, 8px, 0) rotate(0.55deg);
+  }
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  80% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(-150px) translateX(14px) scale(1.15);
+    opacity: 0;
+  }
+}
+
+@keyframes causticDrift {
+  0%, 100% {
+    transform: scale(1.03) translate3d(-1%, 0%, 0);
+  }
+  50% {
+    transform: scale(1.08) translate3d(1%, 1.5%, 0);
+  }
+}
+
+.animate-ray-slow {
+  animation: raySwaySlow 15s ease-in-out infinite;
+}
+
+.animate-ray-alt {
+  animation: raySwayAlt 19s ease-in-out infinite;
+}
+
+.animate-creature-swim {
+  animation: creatureSwimIdle 7.2s ease-in-out infinite;
+}
+
+.animate-caustics {
+  animation: causticDrift 16s ease-in-out infinite;
+}
+
+/* Custom thin scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--deep);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--shallow);
+}
+
+/* Accessibility & Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-ray-slow,
+  .animate-ray-alt,
+  .animate-creature-swim,
+  .animate-caustics {
+    animation: none !important;
+  }
+}
