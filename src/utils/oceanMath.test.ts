@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 import {
   calculateDepthMeters,
   computeParallaxOffset,
+  findActiveChapterIndex,
   getFossilLocationById,
   getHotspotById,
   getPelagicZoneLabel,
   getScaleComparisonMetrics,
-  resolveKeyboardDiveTarget,
+  resolveKeyboardDiveAction,
 } from './oceanMath';
 import {
   ANATOMY_HOTSPOTS,
@@ -66,23 +67,70 @@ test('scientific datasets match required specification counts and lookups', () =
   assert.equal(MYTH_CARDS.length, 4);
   assert.equal(FAST_FACTS.length, 8);
   assert.equal(SCIENTIFIC_SOURCES.length, 6);
+  assert.equal(MENU_CHAPTERS.length, 13);
 
   assert.equal(getHotspotById('palate-teeth').title, 'Palate Teeth (Pterygoid Dentition)');
   assert.equal(getFossilLocationById('europe-maastricht').countries, 'Netherlands & Belgium');
 });
 
-test('resolveKeyboardDiveTarget navigates chapters with Arrow keys, Space, Shift+Space, Home, and End', () => {
-  const total = MENU_CHAPTERS.length; // 13 chapters
-  assert.equal(resolveKeyboardDiveTarget(0, total, 'ArrowDown', false), 1);
-  assert.equal(resolveKeyboardDiveTarget(1, total, 'ArrowRight', false), 2);
-  assert.equal(resolveKeyboardDiveTarget(2, total, ' ', false), 3);
-  assert.equal(resolveKeyboardDiveTarget(3, total, ' ', true), 2);
-  assert.equal(resolveKeyboardDiveTarget(2, total, 'ArrowUp', false), 1);
-  assert.equal(resolveKeyboardDiveTarget(1, total, 'ArrowLeft', false), 0);
-  assert.equal(resolveKeyboardDiveTarget(0, total, 'ArrowUp', false), 0);
-  assert.equal(resolveKeyboardDiveTarget(total - 1, total, ' ', false), total - 1);
-  assert.equal(resolveKeyboardDiveTarget(5, total, 'Home', false), 0);
-  assert.equal(resolveKeyboardDiveTarget(5, total, 'End', false), total - 1);
-  assert.equal(resolveKeyboardDiveTarget(3, total, 'a', false), null);
+test('resolveKeyboardDiveAction maps Arrow keys, Space, Shift+Space, Home, and End to deep-dive chapters', () => {
+  const total = MENU_CHAPTERS.length; // 13
+
+  // ArrowDown / ArrowRight jump deeper
+  assert.deepEqual(resolveKeyboardDiveAction('ArrowDown', false, 0, total), {
+    targetIndex: 1,
+    action: 'dive-deeper',
+  });
+  assert.deepEqual(resolveKeyboardDiveAction('ArrowRight', false, 4, total), {
+    targetIndex: 5,
+    action: 'dive-deeper',
+  });
+
+  // ArrowUp / ArrowLeft ascend shallower
+  assert.deepEqual(resolveKeyboardDiveAction('ArrowUp', false, 3, total), {
+    targetIndex: 2,
+    action: 'ascend-shallower',
+  });
+  assert.deepEqual(resolveKeyboardDiveAction('ArrowLeft', false, 0, total), {
+    targetIndex: 0,
+    action: 'ascend-shallower',
+  });
+
+  // Spacebar advances deep dive, and resurfaces from chapter 13 (index 12) back to 0
+  assert.deepEqual(resolveKeyboardDiveAction(' ', false, 0, total), {
+    targetIndex: 1,
+    action: 'dive-deeper',
+  });
+  assert.deepEqual(resolveKeyboardDiveAction(' ', false, 12, total), {
+    targetIndex: 0,
+    action: 'resurface',
+  });
+
+  // Shift+Space ascends one chapter
+  assert.deepEqual(resolveKeyboardDiveAction(' ', true, 5, total), {
+    targetIndex: 4,
+    action: 'ascend-shallower',
+  });
+
+  // Home and End
+  assert.deepEqual(resolveKeyboardDiveAction('Home', false, 7, total), {
+    targetIndex: 0,
+    action: 'resurface',
+  });
+  assert.deepEqual(resolveKeyboardDiveAction('End', false, 2, total), {
+    targetIndex: 12,
+    action: 'abyss-floor',
+  });
+
+  // Unrelated keys return null
+  assert.equal(resolveKeyboardDiveAction('a', false, 2, total), null);
+});
+
+test('findActiveChapterIndex identifies the current chapter from scroll offsets', () => {
+  const offsets = [0, 900, 1800, 2700, 3600];
+  assert.equal(findActiveChapterIndex(0, offsets, 900), 0);
+  assert.equal(findActiveChapterIndex(700, offsets, 900), 1);
+  assert.equal(findActiveChapterIndex(1600, offsets, 900), 2);
+  assert.equal(findActiveChapterIndex(3500, offsets, 900), 4);
 });
 

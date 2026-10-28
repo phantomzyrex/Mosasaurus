@@ -82,46 +82,100 @@ export function getFossilLocationById(id: string): FossilLocation {
   return FOSSIL_LOCATIONS.find((loc) => loc.id === id) ?? FOSSIL_LOCATIONS[0];
 }
 
-/**
- * Resolves the target section index [0, totalSections - 1] for global keyboard
- * deep-dive navigation (Arrow keys, Space / Shift+Space, PageDown/PageUp, Home/End).
- * Returns null if the key is not a navigation key.
- */
-export function resolveKeyboardDiveTarget(
-  currentIndex: number,
-  totalSections: number,
-  key: string,
-  shiftKey = false
-): number | null {
-  if (totalSections <= 0) return null;
-  const clampedCurrent = Math.max(0, Math.min(totalSections - 1, currentIndex));
+export type DiveActionType =
+  | 'dive-deeper'
+  | 'ascend-shallower'
+  | 'resurface'
+  | 'abyss-floor';
 
-  if (
-    key === 'ArrowDown' ||
-    key === 'ArrowRight' ||
-    key === 'PageDown' ||
-    (key === ' ' && !shiftKey) ||
-    (key === 'Spacebar' && !shiftKey)
-  ) {
-    return Math.min(totalSections - 1, clampedCurrent + 1);
+export interface KeyboardDiveResolution {
+  targetIndex: number;
+  action: DiveActionType;
+}
+
+/**
+ * Determines the active chapter index [0..sectionOffsets.length-1] for a given scrollTop.
+ */
+export function findActiveChapterIndex(
+  scrollTop: number,
+  sectionOffsets: number[],
+  viewportHeight = 900
+): number {
+  if (!sectionOffsets.length) return 0;
+  const probeY = Math.max(0, scrollTop) + viewportHeight * 0.32;
+  let activeIdx = 0;
+  for (let i = 0; i < sectionOffsets.length; i++) {
+    if (probeY >= sectionOffsets[i]) {
+      activeIdx = i;
+    } else {
+      break;
+    }
+  }
+  return activeIdx;
+}
+
+/**
+ * Resolves a global keyboard event key into a target chapter index and dive action.
+ * Returns null if the key is not a navigation key or no movement is needed.
+ */
+export function resolveKeyboardDiveAction(
+  key: string,
+  shiftKey: boolean,
+  currentIndex: number,
+  totalChapters: number
+): KeyboardDiveResolution | null {
+  if (totalChapters <= 0) return null;
+  const safeCurrent = Math.max(0, Math.min(totalChapters - 1, currentIndex));
+
+  if (key === 'ArrowDown' || key === 'ArrowRight' || key === 'PageDown') {
+    const nextIdx = Math.min(totalChapters - 1, safeCurrent + 1);
+    return {
+      targetIndex: nextIdx,
+      action: 'dive-deeper',
+    };
   }
 
-  if (
-    key === 'ArrowUp' ||
-    key === 'ArrowLeft' ||
-    key === 'PageUp' ||
-    (key === ' ' && shiftKey) ||
-    (key === 'Spacebar' && shiftKey)
-  ) {
-    return Math.max(0, clampedCurrent - 1);
+  if (key === 'ArrowUp' || key === 'ArrowLeft' || key === 'PageUp') {
+    const prevIdx = Math.max(0, safeCurrent - 1);
+    return {
+      targetIndex: prevIdx,
+      action: 'ascend-shallower',
+    };
+  }
+
+  if (key === ' ' || key === 'Spacebar') {
+    if (shiftKey) {
+      const prevIdx = Math.max(0, safeCurrent - 1);
+      return {
+        targetIndex: prevIdx,
+        action: 'ascend-shallower',
+      };
+    }
+    // Spacebar simulates a progressive deep-dive exploration; at the abyssal floor it resurfaces to 0 m
+    if (safeCurrent >= totalChapters - 1) {
+      return {
+        targetIndex: 0,
+        action: 'resurface',
+      };
+    }
+    return {
+      targetIndex: safeCurrent + 1,
+      action: 'dive-deeper',
+    };
   }
 
   if (key === 'Home') {
-    return 0;
+    return {
+      targetIndex: 0,
+      action: 'resurface',
+    };
   }
 
   if (key === 'End') {
-    return totalSections - 1;
+    return {
+      targetIndex: totalChapters - 1,
+      action: 'abyss-floor',
+    };
   }
 
   return null;
