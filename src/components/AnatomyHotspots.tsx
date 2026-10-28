@@ -31,7 +31,10 @@ export const AnatomyHotspots: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -39,7 +42,7 @@ export const AnatomyHotspots: React.FC = () => {
             >
               04
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 04 · FUNCTIONAL MORPHOLOGY
               </p>
@@ -52,7 +55,7 @@ export const AnatomyHotspots: React.FC = () => {
             </div>
           </div>
 
-          <p className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
+          <p data-scroll-header className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
             Select any of the 9 anatomical markers on the specimen profile to
             inspect cranial mechanics, sensory adaptations, propulsion, and
             thermoregulation.
@@ -60,7 +63,7 @@ export const AnatomyHotspots: React.FC = () => {
         </div>
 
         {/* Interactive Specimen Viewport + Active Tooltip Card */}
-        <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div data-scroll-reveal className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12">
           {/* Annotated Specimen Canvas (8 cols) */}
           <div className="relative flex min-h-[380px] flex-col justify-between overflow-hidden border border-[#F4FEFF]/15 bg-[radial-gradient(ellipse_at_50%_40%,rgba(10,110,138,0.45)_0%,rgba(3,26,46,0.92)_70%,rgba(2,14,26,1)_100%)] p-6 sm:min-h-[460px] lg:col-span-8">
             {/* Subtle Bathymetric Crosshair Grid */}

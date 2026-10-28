@@ -12,7 +12,10 @@ export const Extinction: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -20,7 +23,7 @@ export const Extinction: React.FC = () => {
             >
               09
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 09 · MACROEVOLUTION &amp; K–PG BOUNDARY
               </p>
@@ -33,7 +36,7 @@ export const Extinction: React.FC = () => {
             </div>
           </div>
 
-          <p className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
+          <p data-scroll-header className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
             From semi-aquatic lizards ~100 million years ago to open-ocean apex
             predators within ~30 million years—terminated abruptly at the 66 Ma
             K–Pg boundary.
@@ -41,7 +44,7 @@ export const Extinction: React.FC = () => {
         </div>
 
         {/* Narrative Highlights: Terrestrial-to-Pelagic + Live Birth + Chicxulub Impact */}
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div data-scroll-grid className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="border border-[#F4FEFF]/15 bg-[#031A2E]/90 p-6">
             <span className="font-mono-tabular text-xs text-[#7CF4F0]">
               100 MA → 70 MA RADIATION

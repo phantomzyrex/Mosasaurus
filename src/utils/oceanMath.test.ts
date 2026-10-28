@@ -7,12 +7,14 @@ import {
   getHotspotById,
   getPelagicZoneLabel,
   getScaleComparisonMetrics,
+  resolveKeyboardDiveTarget,
 } from './oceanMath';
 import {
   ANATOMY_HOTSPOTS,
   DISCOVERY_TIMELINE,
   FAST_FACTS,
   FOSSIL_LOCATIONS,
+  MENU_CHAPTERS,
   MYTH_CARDS,
   OVERVIEW_STATS,
   SCIENTIFIC_SOURCES,
@@ -68,3 +70,19 @@ test('scientific datasets match required specification counts and lookups', () =
   assert.equal(getHotspotById('palate-teeth').title, 'Palate Teeth (Pterygoid Dentition)');
   assert.equal(getFossilLocationById('europe-maastricht').countries, 'Netherlands & Belgium');
 });
+
+test('resolveKeyboardDiveTarget navigates chapters with Arrow keys, Space, Shift+Space, Home, and End', () => {
+  const total = MENU_CHAPTERS.length; // 13 chapters
+  assert.equal(resolveKeyboardDiveTarget(0, total, 'ArrowDown', false), 1);
+  assert.equal(resolveKeyboardDiveTarget(1, total, 'ArrowRight', false), 2);
+  assert.equal(resolveKeyboardDiveTarget(2, total, ' ', false), 3);
+  assert.equal(resolveKeyboardDiveTarget(3, total, ' ', true), 2);
+  assert.equal(resolveKeyboardDiveTarget(2, total, 'ArrowUp', false), 1);
+  assert.equal(resolveKeyboardDiveTarget(1, total, 'ArrowLeft', false), 0);
+  assert.equal(resolveKeyboardDiveTarget(0, total, 'ArrowUp', false), 0);
+  assert.equal(resolveKeyboardDiveTarget(total - 1, total, ' ', false), total - 1);
+  assert.equal(resolveKeyboardDiveTarget(5, total, 'Home', false), 0);
+  assert.equal(resolveKeyboardDiveTarget(5, total, 'End', false), total - 1);
+  assert.equal(resolveKeyboardDiveTarget(3, total, 'a', false), null);
+});
+

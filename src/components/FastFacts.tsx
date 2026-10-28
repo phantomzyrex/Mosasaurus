@@ -10,7 +10,10 @@ export const FastFacts: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -18,7 +21,7 @@ export const FastFacts: React.FC = () => {
             >
               12
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 12 · COMPENDIUM &amp; BIBLIOGRAPHY
               </p>
@@ -31,7 +34,7 @@ export const FastFacts: React.FC = () => {
             </div>
           </div>
 
-          <p className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
+          <p data-scroll-header className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
             Eight verified paleobiological takeaways alongside institutional
             archives and peer-reviewed primary literature.
           </p>
@@ -39,11 +42,14 @@ export const FastFacts: React.FC = () => {
 
         {/* 8 "Did You Know" Fast Facts Grid */}
         <div className="mt-12">
-          <h3 className="font-display text-sm tracking-[0.2em] text-[#7CF4F0] uppercase">
+          <h3 data-scroll-header className="font-display text-sm tracking-[0.2em] text-[#7CF4F0] uppercase">
             DID YOU KNOW? · 8 KEY PALEONTOLOGICAL FACTS
           </h3>
 
-          <div className="mt-6 grid grid-cols-1 gap-px border border-[#F4FEFF]/15 bg-[#F4FEFF]/15 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            data-scroll-grid
+            className="mt-6 grid grid-cols-1 gap-px border border-[#F4FEFF]/15 bg-[#F4FEFF]/15 sm:grid-cols-2 lg:grid-cols-4"
+          >
             {FAST_FACTS.map((fact) => (
               <article
                 key={fact.number}

@@ -14,7 +14,10 @@ export const Map: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -22,7 +25,7 @@ export const Map: React.FC = () => {
             >
               07
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 07 · PALEOGEOGRAPHY &amp; BIOGEOGRAPHY
               </p>
@@ -35,14 +38,14 @@ export const Map: React.FC = () => {
             </div>
           </div>
 
-          <p className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
+          <p data-scroll-header className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
             During the Late Cretaceous, sea levels stood up to 200 m higher than
             today, flooding the continents with warm epicontinental seas.
           </p>
         </div>
 
         {/* Interactive World Map + Locality Dossier */}
-        <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div data-scroll-reveal className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12">
           {/* Interactive SVG World Map with Fossil Sites (8 cols) */}
           <div className="flex flex-col justify-between border border-[#F4FEFF]/15 bg-[#020E1A]/90 p-5 sm:p-6 lg:col-span-8">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2 text-xs text-[#F4FEFF]/65">

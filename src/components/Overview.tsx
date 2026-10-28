@@ -10,7 +10,10 @@ export const Overview: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header with Outlined Marcellus Number 02 */}
-        <div className="grid grid-cols-1 items-end gap-8 border-b border-[#F4FEFF]/15 pb-12 lg:grid-cols-12">
+        <div
+          data-scroll-divider
+          className="grid grid-cols-1 items-end gap-8 border-b border-[#F4FEFF]/15 pb-12 lg:grid-cols-12"
+        >
           <div className="flex items-baseline gap-6 lg:col-span-7">
             <span
               aria-hidden="true"
@@ -18,7 +21,7 @@ export const Overview: React.FC = () => {
             >
               02
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 02 · PALEOBIOLOGICAL OVERVIEW
               </p>
@@ -31,7 +34,7 @@ export const Overview: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5">
+          <div data-scroll-header className="lg:col-span-5">
             <p className="text-sm tracking-[0.06em] text-[#F4FEFF]/75">
               SPECIMEN ARCHIVE · MAASTRICHTIAN STAGE (72.1 – 66.0 MA)
             </p>
@@ -40,7 +43,7 @@ export const Overview: React.FC = () => {
 
         {/* Editorial Lead Narrative */}
         <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+          <div data-scroll-reveal className="lg:col-span-7">
             <p className="text-lg leading-[1.75] font-light text-[#F4FEFF] md:text-xl">
               <span className="float-left mr-3 mt-1 font-display text-5xl leading-none text-[#7CF4F0]">
                 M
@@ -65,7 +68,10 @@ export const Overview: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex flex-col justify-between border border-[#F4FEFF]/15 bg-[#020E1A]/65 p-6 lg:col-span-5">
+          <div
+            data-scroll-reveal
+            className="flex flex-col justify-between border border-[#F4FEFF]/15 bg-[#020E1A]/65 p-6 transition-all duration-500 hover:border-[#7CF4F0]/45 lg:col-span-5"
+          >
             <div>
               <p className="font-display text-xs tracking-[0.2em] text-[#7CF4F0] uppercase">
                 CURATORIAL NOTE ON ESTIMATES
@@ -88,11 +94,14 @@ export const Overview: React.FC = () => {
         </div>
 
         {/* 8 Scientific Stat Cards on --deep / --abyss surfaces */}
-        <dl className="mt-14 grid grid-cols-1 gap-px border border-[#F4FEFF]/15 bg-[#F4FEFF]/15 sm:grid-cols-2 lg:grid-cols-4">
+        <dl
+          data-scroll-grid
+          className="mt-14 grid grid-cols-1 gap-px border border-[#F4FEFF]/15 bg-[#F4FEFF]/15 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {OVERVIEW_STATS.map((stat) => (
             <div
               key={stat.id}
-              className="flex flex-col justify-between bg-[#031A2E] p-6 transition-colors duration-200 hover:bg-[#07405F]/60"
+              className="group flex flex-col justify-between bg-[#031A2E] p-6 transition-all duration-300 ease-ocean hover:-translate-y-1 hover:bg-[#07405F]/65"
             >
               <div>
                 <div className="flex items-center justify-between gap-2">
@@ -105,7 +114,7 @@ export const Overview: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <dd className="mt-3 font-display text-xl tracking-[0.02em] text-[#F4FEFF] md:text-2xl">
+                <dd className="mt-3 font-display text-xl tracking-[0.02em] text-[#F4FEFF] transition-transform duration-300 group-hover:translate-x-1 md:text-2xl">
                   {stat.value}
                 </dd>
               </div>

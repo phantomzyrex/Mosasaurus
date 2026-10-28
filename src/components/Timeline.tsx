@@ -12,7 +12,10 @@ export const Timeline: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -20,7 +23,7 @@ export const Timeline: React.FC = () => {
             >
               03
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 03 · HISTORICAL CHRONOLOGY
               </p>
@@ -33,28 +36,38 @@ export const Timeline: React.FC = () => {
             </div>
           </div>
 
-          <p className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
+          <p data-scroll-header className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
             From subterranean Dutch chalk quarries in 1764 to Georges Cuvier’s
             1808 breakthrough proving the reality of extinction.
           </p>
         </div>
 
-        {/* Vertical Timeline with Animated Draw Line */}
-        <div className="relative mt-16 pl-6 md:pl-0">
-          {/* Central / Left Vertical Draw Line */}
+        {/* Vertical Timeline with Animated Scroll-Scrubbed Draw Line */}
+        <div
+          data-timeline-container
+          className="relative mt-16 pl-6 md:pl-0"
+        >
+          {/* Background Track Line */}
           <div
             aria-hidden="true"
-            className="absolute top-2 bottom-2 left-2 w-[1px] bg-gradient-to-b from-[#36D6DE] via-[#12A8BE] to-[#07405F] md:left-[220px]"
+            className="absolute top-2 bottom-2 left-2 w-[1px] bg-[#F4FEFF]/12 md:left-[220px]"
           />
 
-          <div className="space-y-10">
+          {/* Scroll-Scrubbed Animated Draw Line */}
+          <div
+            aria-hidden="true"
+            data-timeline-progress
+            className="absolute top-2 bottom-2 left-2 w-[2px] bg-gradient-to-b from-[#7CF4F0] via-[#36D6DE] to-[#12A8BE] shadow-[0_0_12px_rgba(124,244,240,0.75)] md:left-[219.5px]"
+          />
+
+          <div data-scroll-grid className="space-y-10">
             {DISCOVERY_TIMELINE.map((event, idx) => {
               const isSelected = event.id === selectedId;
               return (
                 <article
                   key={event.id}
                   onClick={() => setSelectedId(event.id)}
-                  className={`group relative grid cursor-pointer grid-cols-1 gap-4 transition-all duration-200 md:grid-cols-[200px_1fr] md:gap-12 ${
+                  className={`group relative grid cursor-pointer grid-cols-1 gap-4 transition-all duration-300 ease-ocean md:grid-cols-[200px_1fr] md:gap-12 ${
                     isSelected ? 'opacity-100' : 'opacity-85 hover:opacity-100'
                   }`}
                 >
@@ -64,16 +77,16 @@ export const Timeline: React.FC = () => {
                     onClick={() => setSelectedId(event.id)}
                     aria-label={`Select timeline milestone ${event.year}: ${event.title}`}
                     aria-pressed={isSelected}
-                    className={`absolute top-1.5 -left-[21px] z-10 flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CF4F0] md:left-[213px] ${
+                    className={`absolute top-1.5 -left-[21px] z-10 flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-300 ease-ocean focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CF4F0] md:left-[213px] ${
                       isSelected
                         ? 'scale-125 border-[#7CF4F0] bg-[#36D6DE] shadow-[0_0_14px_rgba(124,244,240,0.9)]'
-                        : 'border-[#F4FEFF]/50 bg-[#020E1A] group-hover:border-[#7CF4F0]'
+                        : 'border-[#F4FEFF]/50 bg-[#020E1A] group-hover:scale-110 group-hover:border-[#7CF4F0]'
                     }`}
                   />
 
                   {/* Left Column: Year & Location */}
                   <div className="md:text-right md:pr-4">
-                    <span className="font-mono-tabular font-display text-2xl tracking-[0.04em] text-[#7CF4F0] md:text-3xl">
+                    <span className="font-mono-tabular font-display text-2xl tracking-[0.04em] text-[#7CF4F0] transition-transform duration-300 group-hover:-translate-x-1 md:inline-block md:text-3xl">
                       {event.year}
                     </span>
                     <p className="mt-1 text-xs tracking-[0.12em] text-[#F4FEFF]/60 uppercase">
@@ -83,10 +96,10 @@ export const Timeline: React.FC = () => {
 
                   {/* Right Column: Card Content */}
                   <div
-                    className={`border p-6 transition-all duration-200 ${
+                    className={`border p-6 transition-all duration-300 ease-ocean ${
                       isSelected
-                        ? 'border-[#7CF4F0]/60 bg-[#07405F]/45 shadow-[0_0_30px_rgba(10,110,138,0.25)]'
-                        : 'border-[#F4FEFF]/12 bg-[#031A2E]/80 group-hover:border-[#F4FEFF]/30'
+                        ? 'translate-x-1 border-[#7CF4F0]/60 bg-[#07405F]/45 shadow-[0_0_30px_rgba(10,110,138,0.25)]'
+                        : 'border-[#F4FEFF]/12 bg-[#031A2E]/80 group-hover:translate-x-1 group-hover:border-[#F4FEFF]/30'
                     }`}
                   >
                     <div className="flex flex-wrap items-baseline justify-between gap-2">

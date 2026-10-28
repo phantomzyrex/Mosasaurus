@@ -105,6 +105,7 @@ export interface GalleryItem {
 export const HERO_CUTOUT_PATH = '/assets/mosasaurus-hero.png';
 export const HERO_CUTOUT_FALLBACK = '/assets/aistudio/Mottled_Mosasaur_Predator_Cutout_9dd89b3c.png';
 export const SIDE_CUTOUT_PATH = '/assets/mosasaurus-side.png';
+export const MOSASAURUS_ROAR_AUDIO_PATH = '/assets/aistudio/roar_mosasaurus_1c4db046.mp3';
 
 export const MENU_CHAPTERS = [
   { number: '01', label: 'Hero — Surface', href: '#hero', depth: '0 m' },

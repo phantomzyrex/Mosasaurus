@@ -62,14 +62,17 @@ export const Footer: React.FC<FooterProps> = ({ onBackToSurface }) => {
 
       <div className="relative z-10 mx-auto max-w-6xl">
         {/* Top Row: Section Number 13 & Kicker */}
-        <div className="flex items-baseline gap-6 border-b border-[#F4FEFF]/15 pb-8">
+        <div
+          data-scroll-divider
+          className="flex items-baseline gap-6 border-b border-[#F4FEFF]/15 pb-8"
+        >
           <span
             aria-hidden="true"
             className="section-number-outline text-5xl leading-none md:text-7xl"
           >
             13
           </span>
-          <div>
+          <div data-scroll-header>
             <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
               CHAPTER 13 · CURATORIAL INQUIRIES &amp; COLOPHON
             </p>
@@ -80,7 +83,10 @@ export const Footer: React.FC<FooterProps> = ({ onBackToSurface }) => {
         </div>
 
         {/* Contact Row: "LET'S TALK" + Back to Surface Button */}
-        <div className="my-14 flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
+        <div
+          data-scroll-reveal
+          className="my-14 flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end"
+        >
           <div>
             <h2
               id="contact-heading"
@@ -109,7 +115,7 @@ export const Footer: React.FC<FooterProps> = ({ onBackToSurface }) => {
               type="button"
               onClick={onBackToSurface}
               data-testid="back-to-surface-btn"
-              className="group inline-flex items-center gap-4 border border-[#7CF4F0]/60 bg-[#031A2E] px-6 py-3.5 font-display text-xs tracking-[0.2em] text-[#F4FEFF] uppercase whitespace-nowrap shrink-0 transition-all duration-200 hover:border-[#7CF4F0] hover:bg-[#07405F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CF4F0]"
+              className="group inline-flex items-center gap-4 border border-[#7CF4F0]/60 bg-[#031A2E] px-6 py-3.5 font-display text-xs tracking-[0.2em] text-[#F4FEFF] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ease-ocean hover:-translate-y-0.5 hover:border-[#7CF4F0] hover:bg-[#07405F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CF4F0]"
             >
               <span>Back to Surface (0 m)</span>
               <span

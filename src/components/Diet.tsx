@@ -12,7 +12,10 @@ export const Diet: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -20,7 +23,7 @@ export const Diet: React.FC = () => {
             >
               06
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 06 · PALEOECOLOGY &amp; PREDATION
               </p>
@@ -33,14 +36,14 @@ export const Diet: React.FC = () => {
             </div>
           </div>
 
-          <p className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
+          <p data-scroll-header className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
             An ambush apex predator using rapid bursts of fluked acceleration,
             verified through fossil bite marks and preserved stomach contents.
           </p>
         </div>
 
         {/* Editorial Overview + Interactive Food-Web Diagram */}
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12">
+        <div data-scroll-reveal className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Interactive Food-Web SVG Diagram (7 cols) */}
           <div className="border border-[#F4FEFF]/15 bg-[#031A2E]/90 p-6 lg:col-span-7">
             <div className="mb-4 flex items-center justify-between text-xs text-[#F4FEFF]/65">

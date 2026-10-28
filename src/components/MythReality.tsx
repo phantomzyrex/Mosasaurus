@@ -25,7 +25,10 @@ export const MythReality: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -33,7 +36,7 @@ export const MythReality: React.FC = () => {
             >
               10
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 10 · PUBLIC MISCONCEPTIONS
               </p>
@@ -46,26 +49,30 @@ export const MythReality: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div data-scroll-header className="flex items-center gap-4">
             <button
               type="button"
               onClick={flipAll}
-              className="border border-[#7CF4F0]/50 bg-[#020E1A] px-4 py-2 font-display text-xs tracking-[0.14em] text-[#F4FEFF] uppercase whitespace-nowrap shrink-0 transition-colors hover:border-[#7CF4F0] hover:text-[#7CF4F0] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#7CF4F0]"
+              className="border border-[#7CF4F0]/50 bg-[#020E1A] px-4 py-2 font-display text-xs tracking-[0.14em] text-[#F4FEFF] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ease-ocean hover:border-[#7CF4F0] hover:bg-[#07405F]/50 hover:text-[#7CF4F0] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#7CF4F0]"
             >
               Toggle All Realities
             </button>
           </div>
         </div>
 
-        {/* 4 Interactive Flip Cards */}
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {/* 4 Interactive Flip Cards with Smooth Perspective Transition */}
+        <div data-scroll-grid className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
           {MYTH_CARDS.map((card) => {
             const isFlipped = Boolean(flippedIds[card.id]);
             return (
               <div
                 key={card.id}
                 data-testid={`myth-card-${card.id}`}
-                className="group relative min-h-[270px] border border-[#F4FEFF]/15 bg-[#020E1A] transition-colors duration-200 hover:border-[#7CF4F0]/60"
+                className={`group relative min-h-[275px] border transition-all duration-500 ease-ocean ${
+                  isFlipped
+                    ? 'border-[#7CF4F0]/75 bg-[#07405F]/40 shadow-[0_0_32px_rgba(54,214,222,0.2)]'
+                    : 'border-[#F4FEFF]/15 bg-[#020E1A] hover:-translate-y-1 hover:border-[#7CF4F0]/60'
+                }`}
               >
                 <button
                   type="button"
@@ -80,7 +87,7 @@ export const MythReality: React.FC = () => {
                         <span className="font-mono-tabular text-xs tracking-widest text-[#7CF4F0]">
                           POPULAR MYTH {card.index}
                         </span>
-                        <span className="font-display text-xs tracking-[0.16em] text-[#F4FEFF]/60 uppercase group-hover:text-[#7CF4F0]">
+                        <span className="font-display text-xs tracking-[0.16em] text-[#F4FEFF]/60 uppercase transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#7CF4F0]">
                           CLICK TO REVEAL REALITY →
                         </span>
                       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getScaleComparisonMetrics, type EstimateMode } from '../utils/oceanMath';
 
 const renderSilhouetteSvg = (id: string, isHighlighted: boolean) => {
@@ -9,7 +9,6 @@ const renderSilhouetteSvg = (id: string, isHighlighted: boolean) => {
     case 'human':
       return (
         <svg viewBox="0 0 120 36" className="h-7 w-full overflow-visible" aria-hidden="true">
-          {/* Swimming human diver silhouette */}
           <circle cx="105" cy="16" r="5.5" fill={fill} stroke={stroke} strokeWidth="1" />
           <path
             d="M15,18 L45,14 L96,13 L98,20 L55,21 L12,24 Z"
@@ -23,7 +22,6 @@ const renderSilhouetteSvg = (id: string, isHighlighted: boolean) => {
     case 'shark':
       return (
         <svg viewBox="0 0 240 60" className="h-9 w-full overflow-visible" aria-hidden="true">
-          {/* Great White Shark silhouette */}
           <path
             d="M6,30 L28,12 L24,28 L95,20 L115,4 L130,20 L195,22 L236,30 L198,39 L140,38 L120,54 L108,38 L24,33 L28,48 Z"
             fill={fill}
@@ -35,7 +33,6 @@ const renderSilhouetteSvg = (id: string, isHighlighted: boolean) => {
     case 'orca':
       return (
         <svg viewBox="0 0 280 70" className="h-10 w-full overflow-visible" aria-hidden="true">
-          {/* Orca silhouette */}
           <path
             d="M6,35 L26,18 L22,32 L115,20 L135,2 L152,22 L232,24 L274,36 L236,46 L160,47 L138,65 L122,47 L22,39 L26,52 Z"
             fill={fill}
@@ -47,7 +44,6 @@ const renderSilhouetteSvg = (id: string, isHighlighted: boolean) => {
     case 'bus':
       return (
         <svg viewBox="0 0 360 72" className="h-11 w-full overflow-visible" aria-hidden="true">
-          {/* City bus silhouette */}
           <rect
             x="6"
             y="10"
@@ -71,7 +67,6 @@ const renderSilhouetteSvg = (id: string, isHighlighted: boolean) => {
     default:
       return (
         <svg viewBox="0 0 460 90" className="h-14 w-full overflow-visible" aria-hidden="true">
-          {/* Mosasaurus hoffmannii silhouette with double-lobed fluke & 4 hydrofoil paddles */}
           <path
             d="M4,44 L36,16 L32,40 L125,34 L215,24 L335,23 L415,29 L456,36 L408,38 L448,47 L402,48 L330,49 L355,78 L332,74 L305,50 L205,51 L225,84 L198,78 L175,49 L95,46 L28,68 L32,48 Z"
             fill={fill}
@@ -86,17 +81,44 @@ const renderSilhouetteSvg = (id: string, isHighlighted: boolean) => {
 
 export const SizeCompare: React.FC = () => {
   const [mode, setMode] = useState<EstimateMode>('conservative');
+  const [inView, setInView] = useState(true);
+  const sectionRef = useRef<HTMLElement>(null);
   const metrics = getScaleComparisonMetrics(mode);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      setInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="size"
       aria-labelledby="size-heading"
       className="relative border-t border-[#F4FEFF]/10 bg-[#031A2E] px-6 py-24 md:px-12 lg:px-20 lg:py-32"
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header + Estimate Toggle */}
-        <div className="flex flex-col justify-between gap-8 border-b border-[#F4FEFF]/15 pb-12 lg:flex-row lg:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-8 border-b border-[#F4FEFF]/15 pb-12 lg:flex-row lg:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -104,7 +126,7 @@ export const SizeCompare: React.FC = () => {
             >
               05
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 05 · OSTEOLOGICAL SCALING
               </p>
@@ -119,6 +141,7 @@ export const SizeCompare: React.FC = () => {
 
           {/* Interactive Toggle: Conservative Estimate vs Maximum Disputed Estimate (17 m) */}
           <div
+            data-scroll-header
             role="group"
             aria-label="Mosasaurus size estimate mode"
             className="inline-flex flex-wrap gap-1 border border-[#F4FEFF]/20 bg-[#020E1A] p-1"
@@ -127,9 +150,9 @@ export const SizeCompare: React.FC = () => {
               type="button"
               onClick={() => setMode('conservative')}
               aria-pressed={mode === 'conservative'}
-              className={`px-4 py-2 font-display text-xs tracking-[0.12em] uppercase whitespace-nowrap shrink-0 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#7CF4F0] ${
+              className={`px-4 py-2 font-display text-xs tracking-[0.12em] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ease-ocean focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#7CF4F0] ${
                 mode === 'conservative'
-                  ? 'bg-[#36D6DE] text-[#020E1A] font-medium'
+                  ? 'bg-[#36D6DE] text-[#020E1A] font-medium shadow-[0_0_18px_rgba(54,214,222,0.45)]'
                   : 'text-[#F4FEFF]/75 hover:text-[#F4FEFF]'
               }`}
             >
@@ -139,9 +162,9 @@ export const SizeCompare: React.FC = () => {
               type="button"
               onClick={() => setMode('maximum')}
               aria-pressed={mode === 'maximum'}
-              className={`px-4 py-2 font-display text-xs tracking-[0.12em] uppercase whitespace-nowrap shrink-0 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#7CF4F0] ${
+              className={`px-4 py-2 font-display text-xs tracking-[0.12em] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ease-ocean focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#7CF4F0] ${
                 mode === 'maximum'
-                  ? 'bg-[#36D6DE] text-[#020E1A] font-medium'
+                  ? 'bg-[#36D6DE] text-[#020E1A] font-medium shadow-[0_0_18px_rgba(54,214,222,0.45)]'
                   : 'text-[#F4FEFF]/75 hover:text-[#F4FEFF]'
               }`}
             >
@@ -151,7 +174,10 @@ export const SizeCompare: React.FC = () => {
         </div>
 
         {/* Metric Grid Scale Header (0 m to 18 m) */}
-        <div className="mt-12 border border-[#F4FEFF]/15 bg-[#020E1A]/90 p-6 sm:p-8">
+        <div
+          data-scroll-reveal
+          className="mt-12 border border-[#F4FEFF]/15 bg-[#020E1A]/90 p-6 sm:p-8"
+        >
           <div className="mb-6 flex items-center justify-between border-b border-[#F4FEFF]/15 pb-3 font-mono-tabular text-xs text-[#7CF4F0]">
             <span>0 m</span>
             <span>3 m</span>
@@ -163,14 +189,14 @@ export const SizeCompare: React.FC = () => {
           </div>
 
           {/* Silhouette Scale Rows */}
-          <div className="space-y-8">
-            {metrics.map((item) => (
+          <div data-scroll-grid className="space-y-8">
+            {metrics.map((item, idx) => (
               <div
                 key={item.id}
                 data-testid={`size-row-${item.id}`}
-                className={`border-b border-[#F4FEFF]/10 pb-6 last:border-b-0 last:pb-0 ${
+                className={`border-b border-[#F4FEFF]/10 pb-6 transition-all duration-300 last:border-b-0 last:pb-0 ${
                   item.isMosasaurus
-                    ? 'rounded-sm border border-[#7CF4F0]/45 bg-[#07405F]/35 p-4'
+                    ? 'rounded-sm border border-[#7CF4F0]/45 bg-[#07405F]/35 p-4 shadow-[0_0_32px_rgba(10,110,138,0.25)]'
                     : ''
                 }`}
               >
@@ -190,17 +216,20 @@ export const SizeCompare: React.FC = () => {
 
                   <span
                     data-testid={item.isMosasaurus ? 'mosasaurus-scale-value' : undefined}
-                    className="font-mono-tabular text-sm text-[#7CF4F0]"
+                    className="font-mono-tabular text-sm text-[#7CF4F0] transition-all duration-300"
                   >
                     {item.activeLabel}
                   </span>
                 </div>
 
-                {/* Proportional Bar + Vector Silhouette */}
+                {/* Proportional Bar + Vector Silhouette with Smooth Slide-In */}
                 <div className="relative w-full overflow-hidden bg-[#031A2E]/90 py-3 px-2">
                   <div
-                    className="transition-all duration-500 ease-out"
-                    style={{ width: `${item.widthPercent}%` }}
+                    className="transition-all duration-700 ease-ocean"
+                    style={{
+                      width: inView ? `${item.widthPercent}%` : '8%',
+                      transitionDelay: `${idx * 60}ms`,
+                    }}
                   >
                     {renderSilhouetteSvg(item.id, Boolean(item.isMosasaurus))}
                   </div>

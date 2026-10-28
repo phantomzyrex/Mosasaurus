@@ -25,6 +25,23 @@
     scroll-behavior: smooth;
   }
 
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
   body {
     background-color: var(--ink);
     color: var(--foam);
@@ -60,6 +77,7 @@ section[id] {
   color: rgba(124, 244, 240, 0.06);
   -webkit-text-stroke: 1.25px rgba(244, 254, 255, 0.45);
   user-select: none;
+  will-change: transform, opacity;
 }
 
 /* Hero ocean background gradient */
@@ -76,6 +94,7 @@ section[id] {
   letter-spacing: -0.01em;
   text-shadow: 0 0 36px rgba(124, 244, 240, 0.25);
   line-height: 0.88;
+  will-change: transform;
 }
 
 /* Creature underwater optical grading */
@@ -87,6 +106,29 @@ section[id] {
 
 .mosasaurus-anatomy-graded {
   filter: contrast(1.14) brightness(0.94) sepia(0.45) hue-rotate(148deg) saturate(1.75) drop-shadow(0 0 24px rgba(54, 214, 222, 0.28));
+}
+
+/* Smooth settling curve for interactive transitions */
+.ease-ocean {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 3D Perspective Flip Card utilities */
+.perspective-1000 {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
 }
 
 /* God rays swaying animation */
@@ -161,6 +203,71 @@ section[id] {
 
 .animate-caustics {
   animation: causticDrift 16s ease-in-out infinite;
+}
+
+/* 2-second Underwater Acoustic Shockwave & Screen Shake when Mosasaurus Roars */
+@keyframes mosasaurusRoarShake {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  5% {
+    transform: translate3d(-7px, 5px, 0) rotate(-0.45deg);
+  }
+  10% {
+    transform: translate3d(8px, -6px, 0) rotate(0.5deg);
+  }
+  16% {
+    transform: translate3d(-9px, -4px, 0) rotate(-0.4deg);
+  }
+  22% {
+    transform: translate3d(7px, 6px, 0) rotate(0.45deg);
+  }
+  28% {
+    transform: translate3d(-6px, 4px, 0) rotate(-0.35deg);
+  }
+  35% {
+    transform: translate3d(6px, -5px, 0) rotate(0.3deg);
+  }
+  42% {
+    transform: translate3d(-5px, 3px, 0) rotate(-0.28deg);
+  }
+  50% {
+    transform: translate3d(5px, -3px, 0) rotate(0.22deg);
+  }
+  58% {
+    transform: translate3d(-4px, 3px, 0) rotate(-0.18deg);
+  }
+  66% {
+    transform: translate3d(3px, -2px, 0) rotate(0.14deg);
+  }
+  75% {
+    transform: translate3d(-2.5px, 1.5px, 0) rotate(-0.1deg);
+  }
+  84% {
+    transform: translate3d(2px, -1px, 0) rotate(0.06deg);
+  }
+  92% {
+    transform: translate3d(-1px, 0.5px, 0) rotate(-0.03deg);
+  }
+}
+
+.animate-roar-shake {
+  animation: mosasaurusRoarShake 2s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes roarShockwaveRing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.35);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.35);
+    opacity: 0;
+  }
+}
+
+.animate-roar-ring {
+  animation: roarShockwaveRing 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Custom thin scrollbar */

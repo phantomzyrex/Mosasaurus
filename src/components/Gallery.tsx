@@ -127,7 +127,10 @@ export const Gallery: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header + Scroll Controls */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -135,7 +138,7 @@ export const Gallery: React.FC = () => {
             >
               11
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 11 · SPECIMEN PLATES
               </p>
@@ -148,7 +151,7 @@ export const Gallery: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div data-scroll-header className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => scrollTrack(-1)}
@@ -171,6 +174,7 @@ export const Gallery: React.FC = () => {
         {/* Horizontal Drag-Scroll Track */}
         <div
           ref={trackRef}
+          data-scroll-grid
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={stopDrag}

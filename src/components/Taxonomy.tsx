@@ -12,7 +12,10 @@ export const Taxonomy: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end">
+        <div
+          data-scroll-divider
+          className="flex flex-col justify-between gap-6 border-b border-[#F4FEFF]/15 pb-12 md:flex-row md:items-end"
+        >
           <div className="flex items-baseline gap-6">
             <span
               aria-hidden="true"
@@ -20,7 +23,7 @@ export const Taxonomy: React.FC = () => {
             >
               08
             </span>
-            <div>
+            <div data-scroll-header>
               <p className="font-display text-xs tracking-[0.24em] text-[#7CF4F0] uppercase">
                 CHAPTER 08 · SYSTEMATIC PALEONTOLOGY
               </p>
@@ -33,7 +36,7 @@ export const Taxonomy: React.FC = () => {
             </div>
           </div>
 
-          <p className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
+          <p data-scroll-header className="max-w-md text-sm leading-relaxed text-[#F4FEFF]/75">
             Roughly 5 to 8 species are currently recognised within the genus{' '}
             <em>Mosasaurus</em>, though species boundaries remain actively
             debated among vertebrate paleontologists.
@@ -41,7 +44,7 @@ export const Taxonomy: React.FC = () => {
         </div>
 
         {/* Two-Column Layout: Linnaean Hierarchy Card (5 cols) + Species Catalogue (7 cols) */}
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12">
+        <div data-scroll-reveal className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Taxonomy Hierarchy Card */}
           <div className="border border-[#F4FEFF]/15 bg-[#031A2E] p-6 sm:p-8 lg:col-span-5">
             <div className="border-b border-[#F4FEFF]/15 pb-4">

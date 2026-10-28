@@ -81,3 +81,49 @@ export function getHotspotById(id: string): AnatomyHotspot {
 export function getFossilLocationById(id: string): FossilLocation {
   return FOSSIL_LOCATIONS.find((loc) => loc.id === id) ?? FOSSIL_LOCATIONS[0];
 }
+
+/**
+ * Resolves the target section index [0, totalSections - 1] for global keyboard
+ * deep-dive navigation (Arrow keys, Space / Shift+Space, PageDown/PageUp, Home/End).
+ * Returns null if the key is not a navigation key.
+ */
+export function resolveKeyboardDiveTarget(
+  currentIndex: number,
+  totalSections: number,
+  key: string,
+  shiftKey = false
+): number | null {
+  if (totalSections <= 0) return null;
+  const clampedCurrent = Math.max(0, Math.min(totalSections - 1, currentIndex));
+
+  if (
+    key === 'ArrowDown' ||
+    key === 'ArrowRight' ||
+    key === 'PageDown' ||
+    (key === ' ' && !shiftKey) ||
+    (key === 'Spacebar' && !shiftKey)
+  ) {
+    return Math.min(totalSections - 1, clampedCurrent + 1);
+  }
+
+  if (
+    key === 'ArrowUp' ||
+    key === 'ArrowLeft' ||
+    key === 'PageUp' ||
+    (key === ' ' && shiftKey) ||
+    (key === 'Spacebar' && shiftKey)
+  ) {
+    return Math.max(0, clampedCurrent - 1);
+  }
+
+  if (key === 'Home') {
+    return 0;
+  }
+
+  if (key === 'End') {
+    return totalSections - 1;
+  }
+
+  return null;
+}
+
