@@ -161,7 +161,7 @@ export default function App() {
       );
       const progress = Math.max(0, Math.min(1, scrollTop / maxScroll));
       setScrollProgress(progress);
-      setIsScrolledPastHero(scrollTop > window.innerHeight * 0.85);
+      setIsScrolledPastHero(scrollTop > 24);
 
       if (Date.now() >= programmaticJumpUntilRef.current) {
         const offsets = getSectionOffsets();
@@ -321,10 +321,11 @@ export default function App() {
       {/* Minimal Water-Line Page Loader */}
       {!isLoaded && <Loader onComplete={handleLoaderComplete} />}
 
-      {/* Sticky Top Navigation when descended below the Hero frame */}
-      {isScrolledPastHero && (
-        <Nav onOpenMenu={() => setMenuOpen(true)} isScrolledPastHero={true} />
-      )}
+      {/* Unified Top Navigation (transparent in Hero, floating rounded deep-ocean bar on scroll) */}
+      <Nav
+        onOpenMenu={() => setMenuOpen(true)}
+        isScrolledPastHero={isScrolledPastHero}
+      />
 
       {/* Full-Screen Deep-Navy Menu Overlay */}
       <MenuOverlay isOpen={menuOpen} onClose={() => setMenuOpen(false)} />

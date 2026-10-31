@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { HERO_CUTOUT_FALLBACK, HERO_CUTOUT_PATH } from '../data/mosasaurusData';
 import { computeParallaxOffset } from '../utils/oceanMath';
-import { Nav } from './Nav';
 
 interface HeroProps {
   onOpenMenu: () => void;
@@ -209,8 +208,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenMenu, isLoaded, scrollProgress
           className="pointer-events-none absolute inset-0 z-[4] h-full w-full"
         />
 
-        {/* LAYER 5 (Top UI): Minimal 3-Part Navigation */}
-        <Nav onOpenMenu={onOpenMenu} isScrolledPastHero={false} />
+        {/* Top spacer for the unified fixed 3-part navigation */}
+        <div aria-hidden="true" className="h-16 shrink-0" />
 
         {/* LAYER 3: GIGANTIC Wordmark "MOSASAURUS" (z-10, sits BEHIND the creature) */}
         <div
